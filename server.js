@@ -528,7 +528,7 @@ app.put(
 
     await user.save();
     console.log(user);
-    res.redirect(`/user/${id}`);
+    res.redirect(`/users/${id}`);
   })
 );
 const port = process.env.PORT || 5000;
