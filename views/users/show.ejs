@@ -1,0 +1,37 @@
+<% layout("/layouts/boilerplate.ejs") %>
+<div>
+  <div class="profile-container">
+    <div class="left">
+      <img
+        src="<%= user.profilePicture.url %>"
+        alt=""
+        width="250px"
+        height="250px"
+      />
+    </div>
+    <div class="right">
+      <div class="inside">
+        <span>Username:</span>
+        <h2>@ <%= user.username %></h2>
+      </div>
+      <div class="inside">
+        <span>followings:</span>
+        <h4><%= user.following %></h4>
+      </div>
+      <div class="inside">
+        <span>followers:</span>
+        <h4><%= user.followers %></h4>
+      </div>
+    </div>
+    <hr />
+  </div>
+  <% if(currUser && currUser._id.equals(user._id)){ %>
+
+  <div class="profile-btn">
+    <a href="/users/<%= user._id %>/edit" class="btn add-btn add-btn"
+      >Edit Profile
+    </a>
+  </div>
+  <% } %>
+</div>
+<hr />

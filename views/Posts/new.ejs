@@ -1,0 +1,84 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="row mt-3">
+  <div class="col-8 offset-2">
+    <h3>Upload a New Post</h3>
+    <form
+      action="/posts"
+      method="post"
+      novalidate
+      class="needs-validation"
+      enctype="multipart/form-data"
+    >
+      <div class="mb-3">
+        <label for="image" class="form-label">Upload Image</label>
+        <input type="file" name="post[image]" class="form-control" required />
+      </div>
+      <div class="mb-3">
+        <label for="caption" class="form-label">Caption</label>
+        <textarea name="post[caption]" class="form-control"></textarea>
+
+        <div class="valid-feedback">Caption looks good!</div>
+      </div>
+
+      <div class="row">
+        <div class="mb-3 col-md-4">
+          <label for="tags" class="form-label">Tags</label>
+          <input
+            type="text"
+            id="tagInput"
+            placeholder="Enter tags"
+            class="form-control"
+          />
+        </div>
+        <div class="mb-3 col-md-8">
+          <button type="button" id="addTagButton" class="btn btn-primary mt-4">
+            Add tag
+          </button>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <p id="addedTags" class="Added-tags"></p>
+      </div>
+
+      <!-- Hidden input to store tags -->
+      <input type="hidden" name="post[tags]" id="hiddenTags" />
+
+      <br /><br />
+      <button class="btn btn-dark add-btn">Post</button>
+      <br />
+    </form>
+    <br /><br />
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const tagInput = document.getElementById("tagInput");
+    const addTagButton = document.getElementById("addTagButton");
+    const addedTagsElement = document.getElementById("addedTags");
+    const hiddenTagsInput = document.getElementById("hiddenTags");
+
+    let tags = [];
+
+    addTagButton.addEventListener("click", () => {
+      const tag = tagInput.value.trim();
+      if (tag) {
+        tags.push(tag);
+        updateTagList();
+        tagInput.value = "";
+      }
+    });
+
+    function updateTagList() {
+      addedTagsElement.textContent = tags.join(", ");
+      hiddenTagsInput.value = JSON.stringify(tags);
+    }
+
+    // Ensure hidden input is updated on form submission
+    document.querySelector("form").addEventListener("submit", () => {
+      hiddenTagsInput.value = JSON.stringify(tags);
+    });
+  });
+</script>

@@ -1,0 +1,24 @@
+<% layout("/layouts/boilerplate.ejs") %>
+<div class="row mt-3">
+  <h1 class="col-6 offset-3">Edit your Profile Picture</h1>
+  <div class="profile-container col-6 offset-3">
+    <div class="left">
+      <img
+        src="<%= user.profilePicture.url %>"
+        alt="Profile Picture"
+        width="250px"
+        height="250px"
+      />
+    </div>
+    <form
+      action="/users/<%= user._id %>?_method=PUT"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <div class="mb-3">
+        <input type="file" name="profilePicture" class="form-control" />
+      </div>
+      <button type="submit" class="btn btn-success">Edit</button>
+    </form>
+  </div>
+</div>

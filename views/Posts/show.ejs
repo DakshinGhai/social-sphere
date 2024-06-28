@@ -1,0 +1,118 @@
+<% layout("/layouts/boilerplate.ejs") %>
+<div class="show">
+  <div class="row mt-3">
+    <div class="card mb-1 mt-3" data-post-id="<%= post._id %>">
+      <div class="top">
+        <div class="userDeatils">
+          <div class="profileImg">
+            <img src="<%= post.owner.profilePicture.url %>" alt="user" class="cover" />
+          </div>
+          <h3><%= post.owner.username %><br /><span>Web Designer</span></h3>
+        </div>
+        <div class="dot">
+          <img src="/images/dot.png" alt="dot" />
+        </div>
+      </div>
+      <div class="imgBg">
+        <img src="<%= post.image.url%>" alt="bg" class="cover" />
+      </div>
+      <div class="btns">
+        <div class="left">
+          <img
+            src="/images/heart.png"
+            alt="heart"
+            class="heart"
+            onclick="likeButton(this)"
+          />
+          <a href="/posts/<%=post._id  %>" style="text-decoration: none"
+            ><img src="/images/comment.png" alt="comment"
+          /></a>
+
+          <img src="/images/share.png" alt="share" />
+        </div>
+        <div class="right">
+          <img src="/images/bookmark.png" alt="bookmark" />
+        </div>
+      </div>
+      <h4 class="likes"><%= post.likes%> likes</h4>
+      <h4 class="message">
+        <b><%= post.owner.username %></b>
+        <%= post.caption%> <% if (Array.isArray(post.tags)) { %> <%
+        post.tags.forEach(tag => { %>
+        <span>#<%= tag %></span>
+        <% }) %> <% } %>
+      </h4>
+
+      <div class="addComments">
+        <div class="userImg">
+          <img src="<%= currUser.profilePicture.url %>" alt="user" class="cover" />
+        </div>
+
+        <form
+          method="post"
+          action="/posts/<%=post._id%>/comments"
+          novalidate
+          class="needs-validation comment-form "
+        >
+          <div class="mb-3 mt-1">
+            <label class="text" for="comment"></label>
+            <input
+              name="comments[comment]"
+              id="comment"
+              placeholder="Add a comment..."
+              class="text comment-text"
+              required
+            />
+            <div class="invalid-feedback">Please add a comments</div>
+          </div>
+
+          <button class="btn btn-outline-dark comment-btn mt-4 "><i class="fa-solid fa-arrow-right"></i></button>
+        </form>
+      </div>
+      <h5 class="postTime"><%= post.formattedCreatedAt%> </h5>
+      <div class="row">
+        <h4 class="comments">All <%= post.totalComments%> comments</h4>
+
+        <% for(comment of post.comments){ %>
+
+      <div class="comment-box">
+        <div class="addComments">
+        <div class="userImg">
+          <img src="<%=comment.author. profilePicture.url%>" alt="user" class="cover" />
+        </div>
+         <h5 class="card-title"> @<%=comment.author.username%> :</h5>
+            <p class="comments mb-2"><%=comment.comment%></p>
+            </div>
+            
+            <% if(currUser && currUser._id.equals(comment.author._id)){ %>
+          <form
+            method="post"
+            action="/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE"
+            class="mb-3"
+          >
+            <button class="btn btn-dark btn-sm">Delete</button>
+          </form>
+          <% }%>
+        </div>
+
+        <% }%>
+      </div>
+    </div>
+    <% if(currUser && currUser._id.equals(post.owner._id)){ %>
+    <div class="btns">
+      <a
+        href="/posts/<%= post._id %>/edit"
+        class="btn add-btn col-2  add-btn"
+      >
+        Edit
+      </a>
+      <form method="post" action="/posts/<%=post._id%>?_method=DELETE">
+        <button class="btn btn-dark col-14  ">Delete</button>
+      </form>
+    </div>
+    <% } %>
+
+  
+  </div>
+</div>
+</div>

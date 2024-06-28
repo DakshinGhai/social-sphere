@@ -1,0 +1,15 @@
+<% layout("/layouts/boilerplate.ejs") %>
+<div class="row mt-3">
+  <h1 class="col-6 offset-3">Reset your Password</h1>
+  <div class="col-6 offset-3">
+    <form action="/reset-password" method="POST">
+      <div class="mb-3">
+        <input type="hidden" name="token" value="<%= token %>" />
+        <label for="password" class="form-label">New Password:</label>
+        <input type="password" name="password" class="form-control" required />
+        <p>Please enter your new password</p>
+      </div>
+      <button class="btn btn-success">Reset Password</button>
+    </form>
+  </div>
+</div>
