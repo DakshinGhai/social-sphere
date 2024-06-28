@@ -99,7 +99,7 @@ const sendResetPasswordMail = async (name, email, token) => {
       subject: "Reset Password",
       html: `<p>Hi ${name},</p>
              <p>Please click the link below to reset your password:</p>
-             <a href="http://localhost:5000/reset-password?token=${token}">Reset your password</a>`,
+             <a href="https://social-sphere-okgn.onrender.com/reset-password?token=${token}">Reset your password</a>`,
     };
 
     console.log("Sending email to:", email);
