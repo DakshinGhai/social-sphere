@@ -158,16 +158,7 @@ const parseTags = (req, res, next) => {
   }
   next();
 };
-app.get(
-  "/",
-  wrapAsync(async (req, res) => {
-    const allPosts = await Post.find({}).populate("owner");
-    allPosts.forEach((post) => {
-      post.formattedCreatedAt = moment(post.createdAt).fromNow();
-    });
-    res.render("posts/index", { allPosts });
-  })
-);
+
 app.get("/posts", wrapAsync(async (req, res) => {
     try {
         console.log("Fetching posts...");
