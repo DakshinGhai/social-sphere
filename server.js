@@ -158,9 +158,8 @@ const parseTags = (req, res, next) => {
   }
   next();
 };
-
 app.get(
-  "/posts",
+  "/",
   wrapAsync(async (req, res) => {
     const allPosts = await Post.find({}).populate("owner");
     allPosts.forEach((post) => {
@@ -169,7 +168,20 @@ app.get(
     res.render("posts/index", { allPosts });
   })
 );
-
+app.get("/posts", wrapAsync(async (req, res) => {
+    try {
+        console.log("Fetching posts...");
+        const allPosts = await Post.find({}).populate("owner");
+        console.log("Posts fetched:", allPosts.length);
+        allPosts.forEach(post => {
+            post.formattedCreatedAt = moment(post.createdAt).fromNow();
+        });
+        res.render("posts/index", { allPosts });
+    } catch (error) {
+        console.error('Error fetching posts:', error);
+        res.status(500).render("posts/error", { message: 'Internal Server Error', error: error.message });
+    }
+}));
 app.post(
   "/posts",
   isLoggedIn,
